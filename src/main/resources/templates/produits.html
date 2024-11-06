@@ -136,7 +136,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Libellé</th>
-                    <th>Prix (€)</th>
+                    <th>Prix (DT)</th>
                     <th>Quantité en Stock</th>
                     <th>Actions</th>
                 </tr>
@@ -145,7 +145,7 @@
                 <tr th:each="produit : ${produits}">
                     <td th:text="${produit.id}"></td>
                     <td th:text="${produit.libelle}"></td>
-                    <td th:text="${produit.prix} + ' €'"></td>
+                    <td th:text="${produit.prix} + ' DT'"></td>
                     <td th:text="${produit.qteStock}"></td>
                     <td>
                         <!-- Button to update the product -->
