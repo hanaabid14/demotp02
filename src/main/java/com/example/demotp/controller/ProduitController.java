@@ -1,11 +1,11 @@
-
+package com.example.demotp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import com.example.demotp.model.Produit;
 import com.example.demotp.service.ProduitService;
 
 @Controller
@@ -20,4 +20,9 @@ public class ProduitController {
 		model.addAttribute("produits", produitService.findAll());
 		return "produits"; // Nom de la vue
 	}
+    @PostMapping("/add")
+    public String addProduit(Produit produit) {
+        produitService.save(produit);
+        return "redirect:/produits"; // Rediriger vers la liste des produits
+    }
 }
