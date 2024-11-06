@@ -27,6 +27,11 @@ public class ProduitService {
         Optional<Produit> produit = produitRepository.findById(id);
         return produit.orElse(null);
     }
+    
+    public List<Produit> searchByLibelle(String search) {
+        return produitRepository.findByLibelleContainingIgnoreCase(search);
+    }
+
 
     public void delete(Long id) {
         produitRepository.deleteById(id);
