@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
 
 @Controller
 @RequestMapping("/produits")
@@ -14,10 +16,17 @@ public class ProduitController {
     @Autowired
     private ProduitService produitService;
 
+   
     @GetMapping
-    public String getAllProduits(Model model) {
-        model.addAttribute("produits", produitService.findAll());
-        return "produits"; // Name of the Thymeleaf view
+    public String getAllProduits(@RequestParam(value = "search", required = false) String search, Model model) {
+        List<Produit> produits;
+        if (search != null && !search.isEmpty()) {
+            produits = produitService.searchByLibelle(search);
+        } else {
+            produits = produitService.findAll();
+        }
+        model.addAttribute("produits", produits);
+        return "produits"; // Thymeleaf view
     }
 
     @PostMapping("/add")
@@ -35,7 +44,7 @@ public class ProduitController {
         }
         return "redirect:/produits"; // If product not found, redirect back
     }
-
+   
     @PostMapping("/update/{id}")
     public String updateProduit(@PathVariable("id") Long id, Produit produit) {
         produit.setId(id); // Set the product ID before saving
