@@ -13,3 +13,12 @@ public class ProduitService {
  public List<Produit> findAll() {
  return produitRepository.findAll();
  }
+ 
+public Produit save(Produit produit) {
+    return produitRepository.save(produit);
+    }
+    public Produit findById(Long id) {
+    Optional<Produit> produit = produitRepository.findById(id);
+    return produit.orElse(null);
+    }
+}
