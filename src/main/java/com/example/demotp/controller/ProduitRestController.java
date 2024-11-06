@@ -1,12 +1,20 @@
 package com.example.demotp.controller;
 
-import com.example.demotp.model.Produit;
-import com.example.demotp.service.ProduitService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demotp.model.Produit;
+import com.example.demotp.service.ProduitService;
 
 @RestController
 @RequestMapping("/api/produits")
@@ -38,6 +46,20 @@ public class ProduitRestController {
 		Produit newProduit = produitService.save(produit);
 		return new ResponseEntity<>(newProduit, HttpStatus.CREATED);
 	}
+  // PUT: Mettre à jour un produit existant
+    @PutMapping("/{id}")
+    public ResponseEntity<Produit> updateProduit(@PathVariable Long id, @RequestBody Produit produitDetails) {
+        Produit produit = produitService.findById(id);
+        if (produit != null) {
+            produit.setLibelle(produitDetails.getLibelle());
+            produit.setPrix(produitDetails.getPrix());
+            produit.setQteStock(produitDetails.getQteStock());
+            Produit updatedProduit = produitService.save(produit);
+            return new ResponseEntity<>(updatedProduit, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 	
 
